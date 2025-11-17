@@ -1,0 +1,49 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import InputField from '../components/InputField';
+
+export default function ForgetPassword() {
+  const [email, setEmail] = useState('');
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log('Register:', { email });
+  };
+
+  return (
+    <div className="flex min-h-screen">
+      <div className="hidden lg:flex w-1/2 bg-linear-to-tr from-green-950 to-green-900 items-center justify-center">
+        <img
+          src="https://images.unsplash.com/photo-1581091215362-32f0f2286ca0?auto=format&fit=crop&w=800&q=80"
+          alt="Hardware wala image"
+          className="w-4/5 rounded-2xl shadow-lg text-white"
+        />
+      </div>
+      <div className="flex flex-col justify-center w-full lg:w-1/2 px-10">
+        <div className="max-w-md w-full mx-auto ">
+          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Forget Password</h2>
+          <form onSubmit={handleRegister}>
+            <InputField
+              label="Email"
+              type="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+            <button
+              type="submit"
+              className="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition duration-300 font-semibold mt-4"
+            >
+              Send Reset Link
+            </button>
+          </form>
+          <p className="text-center mt-4 text-gray-600">
+            Already have an account?{' '}
+            <Link to="/login" className="text-teal-600 hover:underline">
+              Login
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -82,6 +82,11 @@ export default function LoginForm() {
           onChange={e => setPassword(e.target.value)}
           disabled={isLoading}
         />
+        <p className="text-center mt-4 text-gray-600">
+          <Link to="/forget-password" className="text-indigo-600 hover:underline">
+            Forget Password?
+          </Link>
+        </p>
         <button
           type="submit"
           disabled={isLoading}
