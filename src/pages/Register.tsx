@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import InputField from "../components/InputField";
-
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import InputField from '../components/InputField';
 
 export default function Register() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Register:", { name, email, password, confirmPassword });
+    console.log('Register:', { name, email, password, confirmPassword });
   };
 
   return (
@@ -25,7 +24,7 @@ export default function Register() {
       </div>
 
       <div className="flex flex-col justify-center w-full lg:w-1/2 px-10">
-        <div className="max-w-md w-full mx-auto bg-white p-10 rounded-2xl shadow-xl">
+        <div className="max-w-md w-full mx-auto ">
           <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Register</h2>
           <form onSubmit={handleRegister}>
             <InputField
@@ -33,28 +32,28 @@ export default function Register() {
               type="text"
               placeholder="Enter your full name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={e => setName(e.target.value)}
             />
             <InputField
               label="Email"
               type="email"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={e => setEmail(e.target.value)}
             />
             <InputField
               label="Password"
               type="password"
               placeholder="Enter your password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={e => setPassword(e.target.value)}
             />
             <InputField
               label="Confirm Password"
               type="password"
               placeholder="Confirm your password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={e => setConfirmPassword(e.target.value)}
             />
             <button
               type="submit"
@@ -64,7 +63,7 @@ export default function Register() {
             </button>
           </form>
           <p className="text-center mt-4 text-gray-600">
-            Already have an account?{" "}
+            Already have an account?{' '}
             <Link to="/login" className="text-teal-600 hover:underline">
               Login
             </Link>
