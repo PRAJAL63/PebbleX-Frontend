@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import InputField from "../components/InputField";
 
+
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleRegister = (e) => {
+  const handleRegister = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Register:", { name, email, password, confirmPassword });
   };
@@ -64,7 +65,7 @@ export default function Register() {
           </form>
           <p className="text-center mt-4 text-gray-600">
             Already have an account?{" "}
-            <Link to="/" className="text-teal-600 hover:underline">
+            <Link to="/login" className="text-teal-600 hover:underline">
               Login
             </Link>
           </p>

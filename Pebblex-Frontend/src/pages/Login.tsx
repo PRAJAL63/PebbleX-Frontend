@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import InputField from "../components/InputField";
 
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Login:", { email, password });
   };
