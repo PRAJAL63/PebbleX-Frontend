@@ -5,14 +5,15 @@
 [![Vite](https://img.shields.io/badge/Vite-7.2.2-646CFF.svg)](https://vitejs.dev/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.1.17-38B2AC.svg)](https://tailwindcss.com/)
 
-**PebbleX** is a modern B2B marketplace platform that connects hardware vendors and buyers, enabling seamless buying and selling of hardware products. Built with cutting-edge web technologies for optimal performance and user experience.
+**PebbleX** is a trusted online platform that serves as a middleman connecting hardware vendors, suppliers, buyers, and distributors in one seamless marketplace. We don't sell products ourselves—we provide the digital infrastructure that enables all parties to buy and sell hardware products efficiently and securely. Built with cutting-edge web technologies for optimal performance and user experience.
 
 ## 🌟 Features
 
-- **🔐 Authentication System** - Secure user login and registration
-- **🛍️ Product Marketplace** - Browse and search hardware products
-- **👥 Vendor Management** - Vendors can list and manage their products
-- **🛒 Buyer Portal** - Easy purchasing and order management
+- **🤝 Platform Connector** - Connect vendors, suppliers, buyers, and middlemen in one place
+- **🔐 Secure Authentication** - Protected user accounts for all parties
+- **🛍️ Product Marketplace** - Browse, list, and search hardware products
+- **👥 Multi-Role Support** - Vendor, supplier, buyer, and distributor accounts
+- **🛒 Transaction Facilitation** - Seamless order processing between parties
 - **📱 Responsive Design** - Mobile-first approach with Tailwind CSS
 - **⚡ Fast Performance** - Powered by Vite for lightning-fast development
 - **🎨 Modern UI** - Beautiful components with shadcn/ui and Radix UI
