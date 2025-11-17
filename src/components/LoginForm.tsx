@@ -14,44 +14,45 @@ export default function LoginForm() {
     e.preventDefault();
 
     // Reset error state
-    setError('');
+    // setError('');
 
-    // Validation
-    if (!email || !password) {
-      setError('Please fill in all fields');
-      return;
-    }
+    // // Validation
+    // if (!email || !password) {
+    //   setError('Please fill in all fields');
+    //   return;
+    // }
 
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    try {
-      const response = await login({ email, password });
+    // try {
+    //   const response = await login({ email, password });
 
-      // Store token if provided
-      if (response.token) {
-        localStorage.setItem('authToken', response.token);
-      }
+    //   // Store token if provided
+    //   if (response.token) {
+    //     localStorage.setItem('authToken', response.token);
+    //   }
 
-      // Store user data if provided
-      if (response.user) {
-        localStorage.setItem('user', JSON.stringify(response.user));
-      }
+    //   // Store user data if provided
+    //   if (response.user) {
+    //     localStorage.setItem('user', JSON.stringify(response.user));
+    //   }
 
-      console.log('Login successful:', response);
+    //   console.log('Login successful:', response);
 
-      // Navigate to homepage or dashboard
-      navigate('/');
-    } catch (error) {
-      console.error('Login error:', error);
+    //   // Navigate to homepage or dashboard
+    //   navigate('/');
+    // } catch (error) {
+    //   console.error('Login error:', error);
 
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('An unexpected error occurred. Please try again.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
+    //   if (error instanceof Error) {
+    //     setError(error.message);
+    //   } else {
+    //     setError('An unexpected error occurred. Please try again.');
+    //   }
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    navigate('/');
   };
 
   return (
