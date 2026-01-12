@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -14,6 +14,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import ForgetPasswordSchema from '@/schema/auth/ForgetPasswordSchema';
+import { forgetPassword } from '@/lib/services/auth';
 
 export default function ForgetPassword() {
   const [error, setError] = useState('');
@@ -27,7 +28,10 @@ export default function ForgetPassword() {
   });
   const handleForgetPassword = async (values: z.infer<typeof ForgetPasswordSchema>) => {
     try {
-      navigate('/reset-password');
+      const response = await forgetPassword(values);
+      if (response) {
+        navigate('/reset-password');
+      }
     } catch (error) {
       console.log(error);
       setError('Unexpected error occurred. Please try again.');

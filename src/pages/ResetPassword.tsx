@@ -1,8 +1,6 @@
 import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
 
 export default function ResetPassword() {
- 
-
   return (
     <div className="flex min-h-screen">
       <div className="hidden lg:flex w-1/2 bg-linear-to-tr from-green-950 to-green-900 items-center justify-center">

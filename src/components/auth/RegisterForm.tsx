@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import RegisterSchema from '@/schema/auth/RegisterSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +15,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'lucide-react';
+import { register } from '@/lib/services/auth';
 
 export default function RegisterForm() {
   const [error, setError] = useState('');
@@ -32,11 +33,10 @@ export default function RegisterForm() {
   });
   const handleRegister = async (data: z.infer<typeof RegisterSchema>) => {
     try {
-      //   const response = await register(data);
-      //   if (response) {
-      //     navigate('/login');
-      //   }
-      navigate('/login');
+      const response = await register(data);
+      if (response) {
+        navigate('/login');
+      }
     } catch (error) {
       console.error(error);
       setError('Unexpected error occurred. Please try again.');
