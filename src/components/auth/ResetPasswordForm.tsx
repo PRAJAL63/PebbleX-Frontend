@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import ResetPasswordSchema from '@/schema/auth/ResetPasswordSchema';
 import { Eye, EyeOff } from 'lucide-react';
 import { resetPassword } from '@/lib/services/auth';
+import { toast } from 'sonner';
 
 export default function ResetPasswordForm() {
   const [error, setError] = useState('');
@@ -35,10 +36,12 @@ export default function ResetPasswordForm() {
       const response = await resetPassword({ password: values.password });
       if (response) {
         navigate('/login');
+        toast.success('Password reset successful! Please login.');
       }
     } catch (error) {
       console.log(error);
       setError('Unexpected error occurred. Please try again.');
+      toast.error('Unexpected error occurred. Please try again.');
     }
   };
   return (

@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'lucide-react';
 import { register } from '@/lib/services/auth';
+import { toast } from 'sonner';
 
 export default function RegisterForm() {
   const [error, setError] = useState('');
@@ -36,10 +37,12 @@ export default function RegisterForm() {
       const response = await register(data);
       if (response) {
         navigate('/login');
+        toast.success('Registration successful! Please login.');
       }
     } catch (error) {
       console.error(error);
       setError('Unexpected error occurred. Please try again.');
+      toast.error('Unexpected error occurred. Please try again.');
     }
   };
   return (

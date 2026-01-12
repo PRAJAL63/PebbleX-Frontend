@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import ForgetPasswordSchema from '@/schema/auth/ForgetPasswordSchema';
 import { forgetPassword } from '@/lib/services/auth';
 import { Logo } from '@/components/Logo';
+import { toast } from 'sonner';
 
 export default function ForgetPassword() {
   const [error, setError] = useState('');
@@ -32,10 +33,12 @@ export default function ForgetPassword() {
       const response = await forgetPassword(values);
       if (response) {
         navigate('/reset-password');
+        toast.success('Reset link sent! Please check your email.');
       }
     } catch (error) {
       console.log(error);
       setError('Unexpected error occurred. Please try again.');
+      toast.error('Unexpected error occurred. Please try again.');
     }
   };
 

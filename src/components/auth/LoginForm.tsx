@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 export default function LoginForm() {
   const [error, setError] = useState('');
@@ -43,7 +44,7 @@ export default function LoginForm() {
       }
 
       console.log('Login successful:', response);
-
+      toast.success('Login successful!');
       // Navigate to homepage or dashboard
       navigate('/dashboard');
     } catch (error) {
@@ -51,8 +52,10 @@ export default function LoginForm() {
 
       if (error instanceof Error) {
         setError(error.message);
+        toast.error(error.message);
       } else {
         setError('An unexpected error occurred. Please try again.');
+        toast.error('An unexpected error occurred. Please try again.');
       }
     }
   };
