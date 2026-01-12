@@ -1,4 +1,4 @@
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/auth/LoginForm';
 
 export default function Login() {
   return (
@@ -7,7 +7,6 @@ export default function Login() {
       <div className="hidden lg:flex w-1/2 bg-linear-to-tr from-blue-950 to-blue-900 items-center justify-center">
         <img
           src="https://images.unsplash.com/photo-1581092334518-2e4b0c08f3c2?auto=format&fit=crop&w=800&q=80"
-          alt="Hardware wala image ki animation"
           className="w-4/5 rounded-2xl shadow-lg"
         />
       </div>

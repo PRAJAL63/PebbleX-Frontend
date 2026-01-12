@@ -1,15 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import InputField from '../components/InputField';
+import ResetPasswordForm from '@/components/auth/ResetPasswordForm';
 
 export default function ResetPassword() {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-
-  const handleRegister = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Register:', { password, confirmPassword });
-  };
+ 
 
   return (
     <div className="flex min-h-screen">
@@ -22,37 +14,7 @@ export default function ResetPassword() {
       </div>
 
       <div className="flex flex-col justify-center w-full lg:w-1/2 px-10">
-        <div className="max-w-md w-full mx-auto ">
-          <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Reset your Password</h2>
-          <form onSubmit={handleRegister}>
-            <InputField
-              label="Password"
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-            <InputField
-              label="Confirm Password"
-              type="password"
-              placeholder="Confirm your password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-            />
-            <button
-              type="submit"
-              className="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition duration-300 font-semibold mt-4"
-            >
-              Reset Password
-            </button>
-          </form>
-          <p className="text-center mt-4 text-gray-600">
-            Already have an account?{' '}
-            <Link to="/login" className="text-teal-600 hover:underline">
-              Login
-            </Link>
-          </p>
-        </div>
+        <ResetPasswordForm />
       </div>
     </div>
   );

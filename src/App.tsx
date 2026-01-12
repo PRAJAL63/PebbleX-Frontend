@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Homepage from './pages/Homepage';
 import Login from './pages/Login';
@@ -6,7 +5,7 @@ import Register from './pages/Register';
 import ForgetPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
 // import Dashboard from './pages/dashboard/dashboard';
-import Dashboard from './pages/dashboard/dashboard';
+import Dashboard from './pages/dashboard';
 
 export default function App() {
   return (

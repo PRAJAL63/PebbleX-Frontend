@@ -1,10 +1,10 @@
 import React from 'react';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import Statcard from './components/Statcard';
-import Saleschart from './components/Saleschart';
-import PieChartCategory from './components/PieChartCategory';
-import Countrysales from './components/Countrysales';
+import Sidebar from '../components/Sidebar';
+import Header from '../components/Header';
+import Statcard from '../components/Statcard';
+import Saleschart from '../components/Saleschart';
+import PieChartCategory from '../components/PieChartCategory';
+import Countrysales from '../components/Countrysales';
 
 export default function Dashboard() {
   return (
@@ -19,7 +19,7 @@ export default function Dashboard() {
             <Statcard />
             <Statcard />
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
             <div className="lg:col-span-2">
               <Saleschart />
@@ -30,7 +30,7 @@ export default function Dashboard() {
           </div>
 
           <div className="grid grid-cols-1 gap-6">
-             <Countrysales />
+            <Countrysales />
           </div>
         </main>
       </div>
