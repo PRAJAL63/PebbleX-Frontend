@@ -8,9 +8,8 @@ import type { Order } from '@/services/order.service';
 
 export default function SupplierOrders() {
   const { data: allOrders, isLoading } = useOrders(); // TODO: Get from auth
-
-  const orders: Order[] = Array.isArray(allOrders) ? allOrders : [];
-
+  const orders: Order[] = Array.isArray(allOrders?.orders) ? allOrders.orders : [];
+  console.log('data', orders);
   const pendingOrders = orders.filter(o => o.status === 'pending');
   const activeOrders = orders.filter(o => ['approved', 'processing', 'shipped'].includes(o.status));
   const completedOrders = orders.filter(o =>
