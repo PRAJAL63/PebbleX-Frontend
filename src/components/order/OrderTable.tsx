@@ -1,4 +1,3 @@
-import type { Order } from '@/mocks/orders';
 import { useNavigate } from 'react-router-dom';
 import {
   Table,
@@ -11,6 +10,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Eye } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import type { Order } from '@/services/order.service';
 
 interface OrderTableProps {
   orders: Order[];
@@ -70,11 +70,18 @@ export default function OrderTable({ orders, isSupplier = false }: OrderTablePro
         </TableHeader>
         <TableBody>
           {orders.map(order => (
-            <TableRow key={order.id}>
-              <TableCell className="font-medium">{order.orderNumber}</TableCell>
-              <TableCell>{isSupplier ? order.vendorName : order.supplierName}</TableCell>
+            <TableRow key={order._id}>
+              <TableCell className="font-medium">{order._id}</TableCell>
+              <TableCell>{isSupplier ? order.vendor.email : order.supplier}</TableCell>
               <TableCell>{order.items.length} items</TableCell>
-              <TableCell>{formatCurrency(order.total)}</TableCell>
+              <TableCell>
+                {formatCurrency(
+                  order.items.reduce(
+                    (total, item) => total + item.product.price * item.quantity,
+                    0,
+                  ),
+                )}
+              </TableCell>
               <TableCell>
                 <Badge className={getStatusColor(order.status)}>
                   {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -82,7 +89,7 @@ export default function OrderTable({ orders, isSupplier = false }: OrderTablePro
               </TableCell>
               <TableCell>{formatDate(order.createdAt)}</TableCell>
               <TableCell className="text-right">
-                <Button variant="ghost" size="sm" onClick={() => handleViewOrder(order.id)}>
+                <Button variant="ghost" size="sm" onClick={() => handleViewOrder(order._id)}>
                   <Eye className="w-4 h-4 mr-1" />
                   View
                 </Button>

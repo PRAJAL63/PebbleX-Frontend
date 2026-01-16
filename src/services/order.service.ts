@@ -57,6 +57,7 @@ export interface orderShipResponse {
 export const orderService = {
   getSupplierOrders: async () => {
     const response = await api.get<orderFetchResponse>('/order/supplier');
+    console.log(response);
     return response.data;
   },
 

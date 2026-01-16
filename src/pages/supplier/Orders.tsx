@@ -4,15 +4,18 @@ import OrderTable from '@/components/order/OrderTable';
 import { useOrders } from '@/hooks/useOrders';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import type { Order } from '@/services/order.service';
 
 export default function SupplierOrders() {
-  const { data: allOrders, isLoading } = useOrders({ supplierId: 'sup-1' }); // TODO: Get from auth
+  const { data: allOrders, isLoading } = useOrders(); // TODO: Get from auth
 
-  const pendingOrders = allOrders?.filter(o => o.status === 'pending') || [];
-  const activeOrders =
-    allOrders?.filter(o => ['approved', 'processing', 'shipped'].includes(o.status)) || [];
-  const completedOrders =
-    allOrders?.filter(o => ['delivered', 'rejected', 'cancelled'].includes(o.status)) || [];
+  const orders: Order[] = Array.isArray(allOrders) ? allOrders : [];
+
+  const pendingOrders = orders.filter(o => o.status === 'pending');
+  const activeOrders = orders.filter(o => ['approved', 'processing', 'shipped'].includes(o.status));
+  const completedOrders = orders.filter(o =>
+    ['delivered', 'rejected', 'cancelled'].includes(o.status),
+  );
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -34,15 +37,15 @@ export default function SupplierOrders() {
           {!isLoading && (
             <Tabs defaultValue="all" className="space-y-4">
               <TabsList>
-                <TabsTrigger value="all">All Orders ({allOrders?.length || 0})</TabsTrigger>
+                <TabsTrigger value="all">All Orders ({orders.length})</TabsTrigger>
                 <TabsTrigger value="pending">Pending ({pendingOrders.length})</TabsTrigger>
                 <TabsTrigger value="active">Active ({activeOrders.length})</TabsTrigger>
                 <TabsTrigger value="completed">Completed ({completedOrders.length})</TabsTrigger>
               </TabsList>
 
               <TabsContent value="all">
-                {allOrders && allOrders.length > 0 ? (
-                  <OrderTable orders={allOrders} isSupplier />
+                {orders.length > 0 ? (
+                  <OrderTable orders={orders} isSupplier />
                 ) : (
                   <div className="bg-white rounded-lg shadow p-12 text-center">
                     <p className="text-gray-500">No orders found</p>
