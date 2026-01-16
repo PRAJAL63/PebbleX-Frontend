@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -14,13 +14,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import ForgetPasswordSchema from '@/schema/auth/ForgetPasswordSchema';
-import { forgetPassword } from '@/lib/services/auth';
+// import { forgetPassword } from '@/lib/services/auth.service';
 import { Logo } from '@/components/Logo';
 import { toast } from 'sonner';
 
 export default function ForgetPassword() {
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof ForgetPasswordSchema>>({
     resolver: zodResolver(ForgetPasswordSchema),
@@ -30,11 +30,12 @@ export default function ForgetPassword() {
   });
   const handleForgetPassword = async (values: z.infer<typeof ForgetPasswordSchema>) => {
     try {
-      const response = await forgetPassword(values);
-      if (response) {
-        navigate('/reset-password');
-        toast.success('Reset link sent! Please check your email.');
-      }
+      console.log(values);
+      // const response = await forgetPassword(values);
+      // if (response) {
+      //   navigate('/reset-password');
+      //   toast.success('Reset link sent! Please check your email.');
+      // }
     } catch (error) {
       console.log(error);
       setError('Unexpected error occurred. Please try again.');

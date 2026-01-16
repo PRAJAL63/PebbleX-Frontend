@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { login } from '@/lib/services/auth';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 import loginSchema from '@/schema/auth/loginSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -19,7 +19,6 @@ import { toast } from 'sonner';
 
 export default function LoginForm() {
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -31,32 +30,19 @@ export default function LoginForm() {
 
   const { isSubmitting } = form.formState;
 
+  const { login } = useAuth();
+
   const handleLogin = async (values: z.infer<typeof loginSchema>) => {
     // Reset error state
     setError('');
 
     try {
-      const response = await login({ email: values.email, password: values.password });
-
-      // Store token if provided
-      if (response.body.token) {
-        localStorage.setItem('authToken', response.body.token);
-      }
-
-      console.log('Login successful:', response);
+      await login({ email: values.email, password: values.password });
+      // Navigation is now handled inside useAuth
       toast.success('Login successful!');
-      // Navigate to homepage or dashboard
-      navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login error:', error);
-
-      if (error instanceof Error) {
-        setError(error.message);
-        toast.error(error.message);
-      } else {
-        setError('An unexpected error occurred. Please try again.');
-        toast.error('An unexpected error occurred. Please try again.');
-      }
+      setError(error.message || 'Login failed');
     }
   };
 

@@ -1,27 +1,38 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+import { Spinner } from '@/components/ui/spinner';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  requiredRole?: 'supplier' | 'vendor' | 'admin';
+  allowedRoles?: string[];
 }
 
-export const ProtectedRoute = ({ children, requiredRole }: ProtectedRouteProps) => {
-  const token = localStorage.getItem('authToken');
+export default function ProtectedRoute({ children, allowedRoles }: ProtectedRouteProps) {
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const location = useLocation();
 
-  // TODO: When backend is ready, fetch and verify user role from token/API
-  // For now, mock role from localStorage
-  const userRole = localStorage.getItem('userRole') as 'supplier' | 'vendor' | 'admin' | null;
-
-  if (!token) {
-    return <Navigate to="/login" replace />;
+  if (isLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner className="h-8 w-8" />
+      </div>
+    );
   }
 
-  if (requiredRole && userRole !== requiredRole) {
-    // Redirect to appropriate dashboard based on role
-    if (userRole === 'supplier') return <Navigate to="/supplier/products" replace />;
-    if (userRole === 'vendor') return <Navigate to="/vendor/home" replace />;
-    return <Navigate to="/dashboard" replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (allowedRoles && user && !allowedRoles.includes(user.role)) {
+    // Redirect to appropriate dashboard if role doesn't match
+    if (user.role === 'supplier') {
+      return <Navigate to="/supplier/products" replace />;
+    } else if (user.role === 'admin') {
+      return <Navigate to="/admin/products" replace />;
+    } else {
+      return <Navigate to="/dashboard" replace />;
+    }
   }
 
   return <>{children}</>;
-};
+}

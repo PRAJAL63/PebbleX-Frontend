@@ -23,7 +23,7 @@ const categories = [
   'Testing Equipment',
 ];
 
-export default function VendorProducts() {
+export default function AdminProducts() {
   const navigate = useNavigate();
   const { data: products, isLoading } = useProducts();
   const [search, setSearch] = useState('');
@@ -42,8 +42,8 @@ export default function VendorProducts() {
         <Header />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold">Browse Products</h1>
-            <p className="text-gray-500 mt-1">Find the perfect hardware for your needs</p>
+            <h1 className="text-2xl font-bold">Admin Product View</h1>
+            <p className="text-gray-500 mt-1">View product inventory</p>
           </div>
 
           {/* Filters */}
@@ -87,7 +87,7 @@ export default function VendorProducts() {
                 <ProductCard
                   key={product.id}
                   product={product}
-                  onClick={() => navigate(`/vendor/products/${product.id}`)}
+                  onClick={() => navigate(`/admin/products/${product.id}`)}
                 />
               ))}
             </div>

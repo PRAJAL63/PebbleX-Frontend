@@ -15,8 +15,9 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Eye, EyeOff } from 'lucide-react';
-import { register } from '@/lib/services/auth';
+
 import { toast } from 'sonner';
+import { authService } from '@/services/auth.service';
 
 export default function RegisterForm() {
   const [error, setError] = useState('');
@@ -26,15 +27,25 @@ export default function RegisterForm() {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      full_name: '',
+      name: '',
       email: '',
       password: '',
       confirmPassword: '',
+      role: 'supplier',
+      phone: '' as any,
+      address: '',
     },
   });
   const handleRegister = async (data: z.infer<typeof RegisterSchema>) => {
     try {
-      const response = await register(data);
+      const response = await authService.register({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        role: data.role,
+        phone: data.phone,
+        address: data.address,
+      });
       if (response) {
         navigate('/login');
         toast.success('Registration successful! Please login.');
@@ -58,7 +69,7 @@ export default function RegisterForm() {
           <form onSubmit={form.handleSubmit(handleRegister)}>
             <FormField
               control={form.control}
-              name="full_name"
+              name="name"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Full Name</FormLabel>
@@ -138,6 +149,53 @@ export default function RegisterForm() {
                         )}
                       </button>
                     </div>
+                  </FormControl>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Role</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your role" {...field} />
+                  </FormControl>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="number"
+                      placeholder="Enter your phone number"
+                      {...field}
+                      onChange={e => field.onChange(e.target.value ? parseInt(e.target.value) : 0)}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter your address" {...field} />
                   </FormControl>
                   <FormMessage className="text-red-500" />
                 </FormItem>

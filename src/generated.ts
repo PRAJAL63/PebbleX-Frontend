@@ -1,15 +1,15 @@
+import type { UserProfile } from './services/auth.service';
+
 export interface UserLoginInput {
   email: string;
   password: string;
 }
 
 export interface UserLoginResponse {
-  statusCode: number;
-  headers: Record<string, string>;
-  body: {
-    message: string;
-    token: string;
-  };
+  success: boolean;
+  user: UserProfile;
+  token: string;
+  message: string;
 }
 
 export interface UserRegisterInput {

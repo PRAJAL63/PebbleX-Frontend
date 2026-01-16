@@ -4,11 +4,11 @@ import Header from '@/components/Header';
 import { useProduct } from '@/hooks/useProducts';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ShoppingCart } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 
-export default function VendorProductDetails() {
+export default function AdminProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: product, isLoading } = useProduct(id || '');
@@ -34,7 +34,7 @@ export default function VendorProductDetails() {
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <p className="text-gray-500 mb-4">Product not found</p>
-          <Button onClick={() => navigate('/vendor/products')}>Back to Products</Button>
+          <Button onClick={() => navigate('/admin/products')}>Back to Products</Button>
         </div>
       </div>
     );
@@ -46,7 +46,7 @@ export default function VendorProductDetails() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
-          <Button variant="ghost" onClick={() => navigate('/vendor/products')} className="mb-6">
+          <Button variant="ghost" onClick={() => navigate('/admin/products')} className="mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Products
           </Button>
@@ -98,18 +98,6 @@ export default function VendorProductDetails() {
                   </span>
                 </div>
               </div>
-
-              <Button
-                className="w-full py-6 text-lg"
-                disabled={product.stock === 0}
-                onClick={() => {
-                  // TODO: Add to cart functionality
-                  alert('Add to cart functionality coming soon!');
-                }}
-              >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                {product.stock > 0 ? 'Add to Order' : 'Out of Stock'}
-              </Button>
 
               <Card>
                 <CardContent className="p-4">

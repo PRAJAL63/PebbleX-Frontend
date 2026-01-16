@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -16,14 +16,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import ResetPasswordSchema from '@/schema/auth/ResetPasswordSchema';
 import { Eye, EyeOff } from 'lucide-react';
-import { resetPassword } from '@/lib/services/auth';
+// import { resetPassword } from '@/lib/services/auth';
 import { toast } from 'sonner';
 
 export default function ResetPasswordForm() {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const form = useForm<z.infer<typeof ResetPasswordSchema>>({
     resolver: zodResolver(ResetPasswordSchema),
     defaultValues: {
@@ -33,11 +33,12 @@ export default function ResetPasswordForm() {
   });
   const handleResetPassword = async (values: z.infer<typeof ResetPasswordSchema>) => {
     try {
-      const response = await resetPassword({ password: values.password });
-      if (response) {
-        navigate('/login');
-        toast.success('Password reset successful! Please login.');
-      }
+      console.log(values);
+      // const response = await resetPassword({ password: values.password });
+      // if (response) {
+      //   navigate('/login');
+      //   toast.success('Password reset successful! Please login.');
+      // }
     } catch (error) {
       console.log(error);
       setError('Unexpected error occurred. Please try again.');

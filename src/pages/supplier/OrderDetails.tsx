@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import OrderDetails from '@/components/order/OrderDetails';
-import { useOrder, useUpdateOrderStatus } from '@/hooks/useOrders';
+import { useOrder, useApproveOrder, useRejectOrder } from '@/hooks/useOrders';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import { Check, X, ArrowLeft } from 'lucide-react';
@@ -22,15 +22,23 @@ export default function SupplierOrderDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: order, isLoading } = useOrder(id || '');
-  const updateStatus = useUpdateOrderStatus();
+  const approveOrder = useApproveOrder();
+  const rejectOrder = useRejectOrder();
   const [action, setAction] = useState<'approve' | 'reject' | null>(null);
 
   const handleStatusUpdate = async (newStatus: 'approved' | 'rejected') => {
     if (!id) return;
-    await updateStatus.mutateAsync({ id, status: newStatus });
+    if (newStatus === 'approved') {
+        await approveOrder.mutateAsync(id);
+    } else {
+        await rejectOrder.mutateAsync(id);
+    }
     setAction(null);
   };
-
+  
+  const isPending = approveOrder.isPending || rejectOrder.isPending;
+  // ... rest of the file ... (logic remains mostly consistent, just using different hooks) 
+  
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -68,12 +76,12 @@ export default function SupplierOrderDetails() {
                   variant="outline"
                   className="text-red-600 border-red-300 hover:bg-red-50"
                   onClick={() => setAction('reject')}
-                  disabled={updateStatus.isPending}
+                  disabled={isPending}
                 >
                   <X className="w-4 h-4 mr-2" />
                   Reject
                 </Button>
-                <Button onClick={() => setAction('approve')} disabled={updateStatus.isPending}>
+                <Button onClick={() => setAction('approve')} disabled={isPending}>
                   <Check className="w-4 h-4 mr-2" />
                   Approve
                 </Button>

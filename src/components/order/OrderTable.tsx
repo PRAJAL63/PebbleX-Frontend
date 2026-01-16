@@ -50,7 +50,7 @@ export default function OrderTable({ orders, isSupplier = false }: OrderTablePro
   };
 
   const handleViewOrder = (orderId: string) => {
-    const basePath = isSupplier ? '/supplier' : '/vendor';
+    const basePath = isSupplier ? '/supplier' : '/admin';
     navigate(`${basePath}/orders/${orderId}`);
   };
 
