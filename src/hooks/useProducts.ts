@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { productService } from '@/services/product.service';
-import type { Product } from '@/mocks/products';
+import { productService, type Product } from '@/services/product.service';
 import { toast } from 'sonner';
 
 export const useProducts = () => {
@@ -15,7 +14,7 @@ export const useLowStockProducts = () => {
     queryKey: ['products', 'low-stock'],
     queryFn: productService.getLowStock,
   });
-}
+};
 
 export const useProduct = (id: string) => {
   return useQuery({
@@ -44,7 +43,8 @@ export const useUpdateProduct = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: Partial<Product> }) => productService.update(id, data),
+    mutationFn: ({ id, data }: { id: string; data: Partial<Product> }) =>
+      productService.update(id, data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['products'] });
       queryClient.invalidateQueries({ queryKey: ['products', variables.id] });
