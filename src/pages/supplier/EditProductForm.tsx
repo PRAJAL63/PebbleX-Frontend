@@ -62,17 +62,17 @@ export default function EditProductForm() {
   }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-gray-50 dark:bg-gray-950">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
+        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-950 p-6">
           <div className="mb-6">
-            <h1 className="text-2xl font-bold">{'Edit Product'}</h1>
-            <p className="text-gray-500 mt-1">{'Update product information'}</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{'Edit Product'}</h1>
+            <p className="text-gray-500 dark:text-gray-400 mt-1">{'Update product information'}</p>
           </div>
 
-          <div className="bg-white rounded-lg shadow p-6 max-w-2xl">
+          <div className="bg-white dark:bg-gray-900 rounded-lg shadow dark:shadow-gray-800 p-6 max-w-2xl border border-gray-200 dark:border-gray-800">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">

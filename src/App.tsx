@@ -17,7 +17,7 @@ import SupplierProducts from './pages/supplier/Products';
 import ProductForm from './pages/supplier/ProductForm';
 import SupplierOrders from './pages/supplier/Orders';
 import SupplierOrderDetails from './pages/supplier/OrderDetails';
-// import SupplierReports from './pages/supplier/Reports';
+import SupplierReports from './pages/supplier/Reports';
 
 // Admin pages
 import AdminHome from './pages/admin/Home';
@@ -90,14 +90,14 @@ export default function App() {
           </ProtectedRoute>
         }
       />
-      {/* <Route
+      <Route
         path="/supplier/reports"
         element={
-          <ProtectedRoute allowedRoles={['supplier']}>
+          <ProtectedRoute allowedRoles={['SUPPLIER']}>
             <SupplierReports />
           </ProtectedRoute>
         }
-      /> */}
+      />
 
       {/* Admin routes */}
       <Route
