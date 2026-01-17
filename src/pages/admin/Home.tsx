@@ -2,21 +2,38 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import ProductCard from '@/components/product/ProductCard';
-import { useProducts } from '@/hooks/useProducts';
-import { useOrders } from '@/hooks/useOrders';
 import { Spinner } from '@/components/ui/spinner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Package, ShoppingCart, TrendingUp } from 'lucide-react';
+import { useGetAllOrders, useGetAllProducts } from '@/hooks/useAdmin';
+import { useMemo } from 'react';
 
 export default function VendorHome() {
   const navigate = useNavigate();
-  const { data: products, isLoading: loadingProducts } = useProducts();
-  const { data: orders } = useOrders({ vendorId: 'ven-1' }); // TODO: Get from auth
+  const { data: products, isLoading: loadingProducts } = useGetAllProducts();
+  const { data: orders } = useGetAllOrders();
 
   const featuredProducts = products?.slice(0, 4);
-  const totalOrders = orders?.length || 0;
-  const pendingOrders = orders?.filter(o => o.status === 'pending').length || 0;
-  const totalSpent = orders?.reduce((sum, order) => sum + order.total, 0) || 0;
+  const totalOrders = orders?.orders?.length || 0;
+  const pendingOrders = orders?.orders?.filter(o => o.status === 'pending').length || 0;
+  const totalSpent =
+    orders?.orders?.reduce(
+      (sum, order) =>
+        sum +
+        order.items.reduce(
+          (itemSum, item) => itemSum + (item.product?.price ?? 0) * (item.quantity ?? 0),
+          0,
+        ),
+      0,
+    ) || 0;
+  useMemo(() => {
+    console.log('VendorHome Render:', {
+      totalOrders,
+      pendingOrders,
+      totalSpent,
+      productsCount: products?.length,
+    });
+  }, [totalOrders, pendingOrders, totalSpent, products]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-NP', {
@@ -78,7 +95,7 @@ export default function VendorHome() {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Featured Products</h2>
               <button
-                onClick={() => navigate('/vendor/products')}
+                onClick={() => navigate('/admin/products')}
                 className="text-sm text-blue-600 hover:underline"
               >
                 View all
@@ -95,9 +112,9 @@ export default function VendorHome() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {featuredProducts.map(product => (
                   <ProductCard
-                    key={product.id}
+                    key={product._id}
                     product={product}
-                    onClick={() => navigate(`/vendor/products/${product.id}`)}
+                    onClick={() => navigate(`/admin/products/${product._id}`)}
                   />
                 ))}
               </div>

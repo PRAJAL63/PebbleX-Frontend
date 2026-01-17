@@ -7,8 +7,7 @@ export interface UserLoginInput {
 
 export interface UserLoginResponse {
   success: boolean;
-  user: UserProfile;
-  token: string;
+  data: UserProfile & { token: string };
   message: string;
 }
 

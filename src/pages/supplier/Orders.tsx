@@ -11,8 +11,10 @@ export default function SupplierOrders() {
   const orders: Order[] = Array.isArray(allOrders?.orders) ? allOrders.orders : [];
   console.log('data', orders);
   const pendingOrders = orders.filter(o => o.status === 'pending');
-  const activeOrders = orders.filter(o => ['approved', 'processing', 'shipped'].includes(o.status));
-  const completedOrders = orders.filter(o =>
+  const shippingOrders = orders.filter(o =>
+    ['approved', 'processing', 'shipped'].includes(o.status),
+  );
+  const rejectedOrders = orders.filter(o =>
     ['delivered', 'rejected', 'cancelled'].includes(o.status),
   );
 
@@ -38,8 +40,8 @@ export default function SupplierOrders() {
               <TabsList>
                 <TabsTrigger value="all">All Orders ({orders.length})</TabsTrigger>
                 <TabsTrigger value="pending">Pending ({pendingOrders.length})</TabsTrigger>
-                <TabsTrigger value="active">Active ({activeOrders.length})</TabsTrigger>
-                <TabsTrigger value="completed">Completed ({completedOrders.length})</TabsTrigger>
+                <TabsTrigger value="active">Shipping ({shippingOrders.length})</TabsTrigger>
+                <TabsTrigger value="completed">Rejected ({rejectedOrders.length})</TabsTrigger>
               </TabsList>
 
               <TabsContent value="all">
@@ -63,8 +65,8 @@ export default function SupplierOrders() {
               </TabsContent>
 
               <TabsContent value="active">
-                {activeOrders.length > 0 ? (
-                  <OrderTable orders={activeOrders} isSupplier />
+                {shippingOrders.length > 0 ? (
+                  <OrderTable orders={shippingOrders} isSupplier />
                 ) : (
                   <div className="bg-white rounded-lg shadow p-12 text-center">
                     <p className="text-gray-500">No active orders</p>
@@ -73,8 +75,8 @@ export default function SupplierOrders() {
               </TabsContent>
 
               <TabsContent value="completed">
-                {completedOrders.length > 0 ? (
-                  <OrderTable orders={completedOrders} isSupplier />
+                {rejectedOrders.length > 0 ? (
+                  <OrderTable orders={rejectedOrders} isSupplier />
                 ) : (
                   <div className="bg-white rounded-lg shadow p-12 text-center">
                     <p className="text-gray-500">No completed orders</p>

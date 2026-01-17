@@ -1,0 +1,353 @@
+/* ==================== Global App Styles ==================== */
+
+/* Light Mode - Default */
+:root {
+  /* Background colors */
+  --app-bg: #ffffff;
+  --app-bg-secondary: #f9fafb;
+  --app-bg-tertiary: #f3f4f6;
+
+  /* Text colors */
+  --app-text-primary: #111827;
+  --app-text-secondary: #6b7280;
+  --app-text-tertiary: #9ca3af;
+
+  /* Border colors */
+  --app-border: #e5e7eb;
+  --app-border-hover: #d1d5db;
+
+  /* Card colors */
+  --app-card-bg: #ffffff;
+  --app-card-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Input colors */
+  --app-input-bg: #ffffff;
+  --app-input-border: #d1d5db;
+  --app-input-focus: #3b82f6;
+
+  /* Button colors */
+  --app-button-primary: #10b981;
+  --app-button-primary-hover: #059669;
+  --app-button-secondary: #f3f4f6;
+  --app-button-secondary-hover: #e5e7eb;
+
+  /* Status colors */
+  --app-success: #10b981;
+  --app-error: #ef4444;
+  --app-warning: #f59e0b;
+  --app-info: #3b82f6;
+}
+
+/* Dark Mode */
+.dark {
+  /* Background colors */
+  --app-bg: #0f172a;
+  --app-bg-secondary: #1e293b;
+  --app-bg-tertiary: #334155;
+
+  /* Text colors */
+  --app-text-primary: #f1f5f9;
+  --app-text-secondary: #cbd5e1;
+  --app-text-tertiary: #94a3b8;
+
+  /* Border colors */
+  --app-border: #334155;
+  --app-border-hover: #475569;
+
+  /* Card colors */
+  --app-card-bg: #1e293b;
+  --app-card-shadow: rgba(0, 0, 0, 0.3);
+
+  /* Input colors */
+  --app-input-bg: #1e293b;
+  --app-input-border: #475569;
+  --app-input-focus: #60a5fa;
+
+  /* Button colors */
+  --app-button-primary: #10b981;
+  --app-button-primary-hover: #059669;
+  --app-button-secondary: #334155;
+  --app-button-secondary-hover: #475569;
+
+  /* Status colors */
+  --app-success: #10b981;
+  --app-error: #f87171;
+  --app-warning: #fbbf24;
+  --app-info: #60a5fa;
+}
+
+/* ==================== Base Element Styles ==================== */
+
+body {
+  background-color: var(--app-bg-secondary);
+  color: var(--app-text-primary);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* ==================== Main Content Areas ==================== */
+
+main {
+  background-color: var(--app-bg-secondary);
+  color: var(--app-text-primary);
+}
+
+/* ==================== Card Styles ==================== */
+
+.app-card {
+  background-color: var(--app-card-bg);
+  border: 1px solid var(--app-border);
+  box-shadow: 0 1px 3px var(--app-card-shadow);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.app-card:hover {
+  border-color: var(--app-border-hover);
+}
+
+/* ==================== Form Elements ==================== */
+
+.app-input {
+  background-color: var(--app-input-bg);
+  border: 1px solid var(--app-input-border);
+  color: var(--app-text-primary);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+.app-input:focus {
+  border-color: var(--app-input-focus);
+  outline: none;
+  ring: 2px;
+  ring-color: var(--app-input-focus);
+  ring-opacity: 0.5;
+}
+
+.app-input::placeholder {
+  color: var(--app-text-tertiary);
+}
+
+/* ==================== Button Styles ==================== */
+
+.app-button-primary {
+  background-color: var(--app-button-primary);
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.app-button-primary:hover {
+  background-color: var(--app-button-primary-hover);
+}
+
+.app-button-secondary {
+  background-color: var(--app-button-secondary);
+  color: var(--app-text-primary);
+  border: 1px solid var(--app-border);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.app-button-secondary:hover {
+  background-color: var(--app-button-secondary-hover);
+  border-color: var(--app-border-hover);
+}
+
+/* ==================== Table Styles ==================== */
+
+.app-table {
+  background-color: var(--app-card-bg);
+  color: var(--app-text-primary);
+}
+
+.app-table thead {
+  background-color: var(--app-bg-tertiary);
+  border-bottom: 2px solid var(--app-border);
+}
+
+.app-table th {
+  color: var(--app-text-secondary);
+  font-weight: 600;
+}
+
+.app-table tbody tr {
+  border-bottom: 1px solid var(--app-border);
+  transition: background-color 0.2s ease;
+}
+
+.app-table tbody tr:hover {
+  background-color: var(--app-bg-secondary);
+}
+
+.app-table td {
+  color: var(--app-text-primary);
+}
+
+/* ==================== Modal/Dialog Styles ==================== */
+
+.app-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.dark .app-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.app-modal-content {
+  background-color: var(--app-card-bg);
+  border: 1px solid var(--app-border);
+  box-shadow: 0 20px 25px -5px var(--app-card-shadow);
+}
+
+/* ==================== Sidebar Specific ==================== */
+
+.app-sidebar {
+  background-color: var(--app-card-bg);
+  border-right: 1px solid var(--app-border);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ==================== Header Specific ==================== */
+
+.app-header {
+  background-color: var(--app-card-bg);
+  border-bottom: 1px solid var(--app-border);
+  box-shadow: 0 1px 3px var(--app-card-shadow);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* ==================== Status Badges ==================== */
+
+.app-badge-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--app-success);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.app-badge-error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--app-error);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.app-badge-warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  color: var(--app-warning);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.app-badge-info {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: var(--app-info);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+/* ==================== Transitions ==================== */
+
+* {
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* ==================== Scrollbar Styles ==================== */
+
+/* Light mode scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--app-bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--app-border-hover);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--app-text-tertiary);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: var(--app-bg-tertiary);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--app-border);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--app-border-hover);
+}
+
+/* ==================== Selection Styles ==================== */
+
+::selection {
+  background-color: var(--app-button-primary);
+  color: white;
+}
+
+/* ==================== Loading/Spinner Styles ==================== */
+
+.app-spinner {
+  border-color: var(--app-border);
+  border-top-color: var(--app-button-primary);
+}
+
+/* ==================== Toast/Notification Styles ==================== */
+
+.app-toast {
+  background-color: var(--app-card-bg);
+  border: 1px solid var(--app-border);
+  color: var(--app-text-primary);
+  box-shadow: 0 10px 15px var(--app-card-shadow);
+}
+
+/* ==================== Utility Classes ==================== */
+
+.app-divider {
+  border-color: var(--app-border);
+}
+
+.app-shadow-sm {
+  box-shadow: 0 1px 2px var(--app-card-shadow);
+}
+
+.app-shadow-md {
+  box-shadow: 0 4px 6px var(--app-card-shadow);
+}
+
+.app-shadow-lg {
+  box-shadow: 0 10px 15px var(--app-card-shadow);
+}
+
+/* ==================== Focus Visible ==================== */
+
+.focus-visible:focus {
+  outline: 2px solid var(--app-input-focus);
+  outline-offset: 2px;
+}
+
+/* ==================== Image Filters for Dark Mode ==================== */
+
+.dark img {
+  filter: brightness(0.9);
+}
+
+.dark img.no-filter {
+  filter: none;
+}

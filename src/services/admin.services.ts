@@ -46,4 +46,8 @@ export const adminService = {
     const response = await api.get<getAllLowStockProductsResponse>('/admin/products/low-stock');
     return response.data.products;
   },
+  getAllProducts: async () => {
+    const response = await api.get<getAllLowStockProductsResponse>('/admin/products');
+    return response.data.products;
+  },
 };

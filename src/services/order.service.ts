@@ -4,6 +4,7 @@ import api from '@/lib/api';
 export interface Vendor {
   _id: string;
   email: string;
+  address: string;
 }
 
 // Product info inside order items
@@ -11,6 +12,7 @@ export interface OrderProduct {
   _id: string;
   name: string;
   price: number;
+  address: string;
 }
 
 // Each item in an order
@@ -19,12 +21,16 @@ export interface OrderItem {
   product: OrderProduct;
   quantity: number;
 }
+export interface Supplier {
+  _id: string;
+  email: string;
+}
 
 // Single order
 export interface Order {
   _id: string;
   vendor: Vendor;
-  supplier: string; // supplier user ID
+  supplier: Supplier;
   items: OrderItem[];
   status: 'pending' | 'approved' | 'shipped' | 'delivered' | 'cancelled';
   createdAt: string;
@@ -54,6 +60,11 @@ export interface orderShipResponse {
   message: string;
   order: Order;
 }
+export interface orderByIdResponse {
+  sucess: boolean;
+  order: Order;
+  message: string;
+}
 export const orderService = {
   getSupplierOrders: async () => {
     const response = await api.get<orderFetchResponse>('/order/supplier');
@@ -62,8 +73,8 @@ export const orderService = {
   },
 
   getById: async (id: string) => {
-    const response = await api.get<{ body: { data: Order } }>(`/order/${id}`);
-    return response.data.body.data;
+    const response = await api.get<orderByIdResponse>(`/order/${id}`);
+    return response.data.order;
   },
 
   approve: async (orderId: string) => {

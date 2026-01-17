@@ -9,6 +9,7 @@ import { AuthProvider } from './hooks/useAuth';
 import { Toaster } from 'sonner';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { ThemeProvider } from './components/ThemeProvider';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,15 +24,17 @@ const queryClient = new QueryClient({
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <App />
-          <Toaster position="bottom-right" />
-        </AuthProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <App />
+            <Toaster position="bottom-right" />
+          </AuthProvider>
 
-        <ReactQueryDevtools initialIsOpen={false} />
-      </QueryClientProvider>
-    </BrowserRouter>
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   </StrictMode>,
 );

@@ -4,6 +4,7 @@ import { authService, type UserProfile } from '@/services/auth.service';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
 import type { UserLoginInput } from '@/generated';
+import { useQuery } from '@tanstack/react-query';
 
 interface AuthContextType {
   user: UserProfile | null;
@@ -46,16 +47,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (data: UserLoginInput) => {
     try {
       const response = await authService.login(data);
-      if (response.token) {
-        localStorage.setItem('authToken', response.token);
+      if (response.data && response.data.token) {
+        localStorage.setItem('authToken', response.data.token);
         const profile = await authService.getProfile();
         setUser(profile.user);
         toast.success('Login successful');
 
+        console.log('Login successful, user role:', profile.user.role);
+
         // Redirect based on role
-        if (profile.user.role === 'supplier') {
+        if (profile.user.role === 'SUPPLIER') {
           navigate('/supplier/products');
-        } else if (profile.user.role === 'admin') {
+        } else if (profile.user.role === 'ADMIN') {
           navigate('/admin/products');
         } else {
           // Fallback
@@ -90,3 +93,10 @@ export function useAuth() {
   }
   return context;
 }
+
+export const useGetMe = () => {
+  return useQuery({
+    queryKey: ['me'],
+    queryFn: authService.getProfile,
+  });
+};

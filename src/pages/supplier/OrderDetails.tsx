@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Sidebar from '@/components/Sidebar';
 import Header from '@/components/Header';
 import OrderDetails from '@/components/order/OrderDetails';
-import { useOrder, useApproveOrder, useRejectOrder } from '@/hooks/useOrders';
+import { useOrder, useApproveOrder, useRejectOrder, useShipOrder } from '@/hooks/useOrders';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import { Check, X, ArrowLeft } from 'lucide-react';
@@ -24,21 +24,24 @@ export default function SupplierOrderDetails() {
   const { data: order, isLoading } = useOrder(id || '');
   const approveOrder = useApproveOrder();
   const rejectOrder = useRejectOrder();
-  const [action, setAction] = useState<'approve' | 'reject' | null>(null);
+  const shipOrder = useShipOrder();
+  const [action, setAction] = useState<'approve' | 'reject' | 'shipping' | null>(null);
 
-  const handleStatusUpdate = async (newStatus: 'approved' | 'rejected') => {
+  const handleStatusUpdate = async (newStatus: 'approved' | 'rejected' | 'shipping') => {
     if (!id) return;
     if (newStatus === 'approved') {
-        await approveOrder.mutateAsync(id);
+      await approveOrder.mutateAsync(id);
+    } else if (newStatus === 'shipping') {
+      await shipOrder.mutateAsync(id);
     } else {
-        await rejectOrder.mutateAsync(id);
+      await rejectOrder.mutateAsync(id);
     }
     setAction(null);
   };
-  
+
   const isPending = approveOrder.isPending || rejectOrder.isPending;
-  // ... rest of the file ... (logic remains mostly consistent, just using different hooks) 
-  
+  // ... rest of the file ... (logic remains mostly consistent, just using different hooks)
+
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -87,6 +90,18 @@ export default function SupplierOrderDetails() {
                 </Button>
               </div>
             )}
+            {order.status === 'approved' && (
+              <div className="flex gap-3">
+                <Button
+                  variant="outline"
+                  className="text-green-600 border-green-300 cursor-not-allowed"
+                  onClick={() => setAction('shipping')}
+                >
+                  <Check className="w-4 h-4 mr-2" />
+                  Shipping
+                </Button>
+              </div>
+            )}
           </div>
 
           <OrderDetails order={order} />
@@ -94,7 +109,7 @@ export default function SupplierOrderDetails() {
       </div>
 
       <AlertDialog open={action === 'approve'} onOpenChange={() => setAction(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white">
           <AlertDialogHeader>
             <AlertDialogTitle>Approve Order?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -112,7 +127,7 @@ export default function SupplierOrderDetails() {
       </AlertDialog>
 
       <AlertDialog open={action === 'reject'} onOpenChange={() => setAction(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white">
           <AlertDialogHeader>
             <AlertDialogTitle>Reject Order?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -126,6 +141,25 @@ export default function SupplierOrderDetails() {
               className="bg-red-600 hover:bg-red-700"
             >
               Reject Order
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+      <AlertDialog open={action === 'shipping'} onOpenChange={() => setAction(null)}>
+        <AlertDialogContent className="bg-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle>Shipping Order?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will ship the order and notify the vendor. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => handleStatusUpdate('shipping')}
+              className="bg-red-600 hover:bg-red-700"
+            >
+              Shipping Order
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

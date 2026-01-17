@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -23,21 +22,32 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useProduct, useCreateProduct, useUpdateProduct } from '@/hooks/useProducts';
+import { useProduct, useCreateProduct } from '@/hooks/useProducts';
 import createProductSchema from '@/schema/product/createProductSchema';
 import { Spinner } from '@/components/ui/spinner';
+import {
+  Wrench,
+  Hammer,
+  ShieldCheck,
+  Flame,
+  FlaskConical,
+  Sparkles,
+  Package,
+  Wind,
+  Zap,
+} from 'lucide-react';
 
 const categories = [
-  'Power Tools',
-  'Hand Tools',
-  'Safety Equipment',
-  'Welding Equipment',
-  'Testing Equipment',
-  'Cleaning Equipment',
-  'Storage',
-  'Access Equipment',
-  'Compressors',
-  'Power Generation',
+  { value: 'Power Tools', icon: Wrench, color: 'text-blue-600' },
+  { value: 'Hand Tools', icon: Hammer, color: 'text-orange-600' },
+  { value: 'Safety Equipment', icon: ShieldCheck, color: 'text-green-600' },
+  { value: 'Welding Equipment', icon: Flame, color: 'text-red-600' },
+  { value: 'Testing Equipment', icon: FlaskConical, color: 'text-purple-600' },
+  { value: 'Cleaning Equipment', icon: Sparkles, color: 'text-cyan-600' },
+  { value: 'Storage', icon: Package, color: 'text-amber-600' },
+  { value: 'Access Equipment', icon: Package, color: 'text-indigo-600' },
+  { value: 'Compressors', icon: Wind, color: 'text-teal-600' },
+  { value: 'Power Generation', icon: Zap, color: 'text-yellow-600' },
 ];
 
 export default function ProductForm() {
@@ -45,45 +55,29 @@ export default function ProductForm() {
   const navigate = useNavigate();
   const isEdit = !!id;
 
-  const { data: product, isLoading: loadingProduct } = useProduct(id || '');
-  const createMutation = useCreateProduct();
-  const updateMutation = useUpdateProduct();
+  const { isLoading: loadingProduct } = useProduct(id || '');
+  const { mutate, isError, isPending, error } = useCreateProduct();
 
   const form = useForm<z.infer<typeof createProductSchema>>({
     resolver: zodResolver(createProductSchema) as any,
     defaultValues: {
       name: '',
-      category: '',
+      description: '',
       price: 0,
       stock: 0,
-      description: '',
-      supplierId: 'sup-1', // TODO: Get from auth context
-      image: '',
+      category: '',
+      sku: 'sup-1', // TODO: Get from auth context
+      lowStockThreshold: 5,
     },
   });
 
-  useEffect(() => {
-    if (product && isEdit) {
-      form.reset({
-        name: product.name,
-        category: product.category,
-        price: product.price,
-        stock: product.stock,
-        description: product.description,
-        supplierId: product.supplierId,
-        image: product.image || '',
-      });
-    }
-  }, [product, isEdit, form]);
-
   const onSubmit = async (values: z.infer<typeof createProductSchema>) => {
     try {
-      if (isEdit && id) {
-        await updateMutation.mutateAsync({ id, data: values });
-      } else {
-        await createMutation.mutateAsync(values);
-      }
-      navigate('/supplier/products');
+      await mutate({
+        ...values,
+        lowStockThreshold: Number(values.lowStockThreshold) ?? 5,
+      });
+      form.reset();
     } catch (error) {
       console.error('Error saving product:', error);
     }
@@ -122,7 +116,7 @@ export default function ProductForm() {
                       <FormControl>
                         <Input placeholder="Enter product name" {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-500" />
                     </FormItem>
                   )}
                 />
@@ -136,18 +130,28 @@ export default function ProductForm() {
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select category" />
+                            <SelectValue placeholder="Select a category" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent>
-                          {categories.map(cat => (
-                            <SelectItem key={cat} value={cat}>
-                              {cat}
-                            </SelectItem>
-                          ))}
+                        <SelectContent className="bg-white">
+                          {categories.map(cat => {
+                            const Icon = cat.icon;
+                            return (
+                              <SelectItem
+                                key={cat.value}
+                                value={cat.value}
+                                className="cursor-pointer"
+                              >
+                                <div className="flex items-center gap-2">
+                                  <Icon className={`h-4 w-4 ${cat.color}`} />
+                                  <span>{cat.value}</span>
+                                </div>
+                              </SelectItem>
+                            );
+                          })}
                         </SelectContent>
                       </Select>
-                      <FormMessage />
+                      <FormMessage className="text-red-500" />
                     </FormItem>
                   )}
                 />
@@ -167,7 +171,7 @@ export default function ProductForm() {
                             onChange={e => field.onChange(parseFloat(e.target.value))}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500" />
                       </FormItem>
                     )}
                   />
@@ -186,7 +190,7 @@ export default function ProductForm() {
                             onChange={e => field.onChange(parseInt(e.target.value, 10))}
                           />
                         </FormControl>
-                        <FormMessage />
+                        <FormMessage className="text-red-500" />
                       </FormItem>
                     )}
                   />
@@ -201,34 +205,46 @@ export default function ProductForm() {
                       <FormControl>
                         <Textarea placeholder="Enter product description" rows={4} {...field} />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-500" />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="sku"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>SKU</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter product SKU" {...field} />
+                      </FormControl>
+                      <FormMessage className="text-red-500" />
                     </FormItem>
                   )}
                 />
 
                 <FormField
                   control={form.control}
-                  name="image"
+                  name="lowStockThreshold"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Image URL (Optional)</FormLabel>
+                      <FormLabel>Low Stock Threshold (Optional)</FormLabel>
                       <FormControl>
-                        <Input placeholder="https://example.com/image.jpg" {...field} />
+                        <Input
+                          type="number"
+                          placeholder=""
+                          {...field}
+                          onChange={e => field.onChange(parseInt(e.target.value, 10))}
+                        />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-red-500" />
                     </FormItem>
                   )}
                 />
+                <div>{isError && <p className="text-red-500">{error?.message}</p>}</div>
 
                 <div className="flex gap-3 pt-4">
-                  <Button
-                    type="submit"
-                    disabled={
-                      form.formState.isSubmitting ||
-                      createMutation.isPending ||
-                      updateMutation.isPending
-                    }
-                  >
+                  <Button type="submit" disabled={form.formState.isSubmitting || isPending}>
                     {form.formState.isSubmitting
                       ? 'Saving...'
                       : isEdit

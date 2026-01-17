@@ -2,15 +2,16 @@ import type { UserLoginInput, UserLoginResponse } from '@/generated';
 import api from '@/lib/api';
 
 export interface UserProfile {
-  id: string;
+  _id?: string;
+  id?: string;
   name: string;
   email: string;
-  password: string;
-  role: 'supplier' | 'admin';
-  phone: number;
-  address: string;
-  createdAt: Date;
-  updatedAt: Date;
+  password?: string;
+  role: 'SUPPLIER' | 'ADMIN';
+  phone?: number;
+  address?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface RegisterInput {
@@ -36,6 +37,7 @@ export interface ProfileResponse {
 export const authService = {
   login: async (data: UserLoginInput) => {
     const response = await api.post<UserLoginResponse>('/auth/login', data);
+    console.log('response', response.data);
     return response.data;
   },
 

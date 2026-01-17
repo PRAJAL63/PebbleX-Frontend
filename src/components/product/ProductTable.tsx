@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pencil, Trash2, MoreHorizontal } from 'lucide-react';
-import type { Product } from '@/mocks/products';
+
 import {
   Table,
   TableBody,
@@ -28,6 +28,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useDeleteProduct } from '@/hooks/useProducts';
+import type { Product } from '@/services/product.service';
 
 interface ProductTableProps {
   products: Product[];
@@ -35,12 +36,12 @@ interface ProductTableProps {
 
 export default function ProductTable({ products }: ProductTableProps) {
   const navigate = useNavigate();
-  const deleteProduct = useDeleteProduct();
+  const { mutate } = useDeleteProduct();
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
   const handleDelete = async () => {
     if (deleteId) {
-      await deleteProduct.mutateAsync(deleteId);
+      await mutate(deleteId);
       setDeleteId(null);
     }
   };
@@ -53,7 +54,7 @@ export default function ProductTable({ products }: ProductTableProps) {
     }).format(amount);
   };
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | Date) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -77,7 +78,7 @@ export default function ProductTable({ products }: ProductTableProps) {
           </TableHeader>
           <TableBody>
             {products.map(product => (
-              <TableRow key={product.id}>
+              <TableRow key={product._id}>
                 <TableCell className="font-medium">{product.name}</TableCell>
                 <TableCell>{product.category}</TableCell>
                 <TableCell>{formatCurrency(product.price)}</TableCell>
@@ -104,13 +105,13 @@ export default function ProductTable({ products }: ProductTableProps) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
-                        onClick={() => navigate(`/supplier/products/${product.id}/edit`)}
+                        onClick={() => navigate(`/supplier/products/${product._id}/edit`)}
                       >
                         <Pencil className="w-4 h-4 mr-2" />
                         Edit
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={() => setDeleteId(product.id)}
+                        onClick={() => setDeleteId(product._id)}
                         className="text-red-600"
                       >
                         <Trash2 className="w-4 h-4 mr-2" />
@@ -126,7 +127,7 @@ export default function ProductTable({ products }: ProductTableProps) {
       </div>
 
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="bg-white">
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>

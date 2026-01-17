@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import './App.css';
 
 // Public pages
 import Homepage from './pages/Homepage';
@@ -24,6 +25,9 @@ import AdminProducts from './pages/admin/Products';
 import AdminProductDetails from './pages/admin/ProductDetails';
 import AdminOrders from './pages/admin/Orders';
 import AdminOrderDetails from './pages/admin/OrderDetails';
+import EditProductForm from './pages/supplier/EditProductForm';
+import UserTable from './pages/admin/UserTable';
+import UserDetails from './pages/admin/UserDetails';
 
 export default function App() {
   return (
@@ -49,7 +53,7 @@ export default function App() {
       <Route
         path="/supplier/products"
         element={
-          <ProtectedRoute allowedRoles={['supplier']}>
+          <ProtectedRoute allowedRoles={['SUPPLIER']}>
             <SupplierProducts />
           </ProtectedRoute>
         }
@@ -57,7 +61,7 @@ export default function App() {
       <Route
         path="/supplier/products/new"
         element={
-          <ProtectedRoute allowedRoles={['supplier']}>
+          <ProtectedRoute allowedRoles={['SUPPLIER']}>
             <ProductForm />
           </ProtectedRoute>
         }
@@ -65,15 +69,15 @@ export default function App() {
       <Route
         path="/supplier/products/:id/edit"
         element={
-          <ProtectedRoute allowedRoles={['supplier']}>
-            <ProductForm />
+          <ProtectedRoute allowedRoles={['SUPPLIER']}>
+            <EditProductForm />
           </ProtectedRoute>
         }
       />
       <Route
         path="/supplier/orders"
         element={
-          <ProtectedRoute allowedRoles={['supplier']}>
+          <ProtectedRoute allowedRoles={['SUPPLIER']}>
             <SupplierOrders />
           </ProtectedRoute>
         }
@@ -81,7 +85,7 @@ export default function App() {
       <Route
         path="/supplier/orders/:id"
         element={
-          <ProtectedRoute allowedRoles={['supplier']}>
+          <ProtectedRoute allowedRoles={['SUPPLIER']}>
             <SupplierOrderDetails />
           </ProtectedRoute>
         }
@@ -99,7 +103,7 @@ export default function App() {
       <Route
         path="/admin/home"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['ADMIN']}>
             <AdminHome />
           </ProtectedRoute>
         }
@@ -107,7 +111,7 @@ export default function App() {
       <Route
         path="/admin/products"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['ADMIN']}>
             <AdminProducts />
           </ProtectedRoute>
         }
@@ -115,7 +119,7 @@ export default function App() {
       <Route
         path="/admin/products/:id"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['ADMIN']}>
             <AdminProductDetails />
           </ProtectedRoute>
         }
@@ -123,7 +127,7 @@ export default function App() {
       <Route
         path="/admin/orders"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['ADMIN']}>
             <AdminOrders />
           </ProtectedRoute>
         }
@@ -131,8 +135,26 @@ export default function App() {
       <Route
         path="/admin/orders/:id"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
+          <ProtectedRoute allowedRoles={['ADMIN']}>
             <AdminOrderDetails />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/users"
+        element={
+          <ProtectedRoute allowedRoles={['ADMIN']}>
+            <UserTable />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/users/:id"
+        element={
+          <ProtectedRoute allowedRoles={['ADMIN']}>
+            <UserDetails />
           </ProtectedRoute>
         }
       />

@@ -6,12 +6,13 @@ import { useOrder } from '@/hooks/useOrders';
 import { Spinner } from '@/components/ui/spinner';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { useGetMe } from '@/hooks/useAuth';
 
 export default function VendorOrderDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: order, isLoading } = useOrder(id || '');
-
+  const { data: user } = useGetMe();
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -25,7 +26,17 @@ export default function VendorOrderDetails() {
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
           <p className="text-gray-500 mb-4">Order not found</p>
-          <Button onClick={() => navigate('/vendor/orders')}>Back to Orders</Button>
+          <Button
+            onClick={() => {
+              if (user && user.user.role === 'ADMIN') {
+                navigate('/admin/orders');
+              } else {
+                navigate('/vendor/orders');
+              }
+            }}
+          >
+            Back to Orders
+          </Button>
         </div>
       </div>
     );
@@ -37,7 +48,17 @@ export default function VendorOrderDetails() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-6">
-          <Button variant="ghost" onClick={() => navigate('/vendor/orders')} className="mb-6">
+          <Button
+            variant="ghost"
+            onClick={() => {
+              if (user && user.user.role === 'ADMIN') {
+                navigate('/admin/orders');
+              } else {
+                navigate('/vendor/orders');
+              }
+            }}
+            className="mb-6"
+          >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Orders
           </Button>

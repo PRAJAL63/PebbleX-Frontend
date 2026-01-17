@@ -11,6 +11,14 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
   const { user, isAuthenticated, isLoading } = useAuth();
   const location = useLocation();
 
+  console.log('ProtectedRoute:', {
+    user,
+    isAuthenticated,
+    isLoading,
+    allowedRoles,
+    path: location.pathname,
+  });
+
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -24,15 +32,17 @@ export default function ProtectedRoute({ children, allowedRoles }: ProtectedRout
   }
 
   if (allowedRoles && user && !allowedRoles.includes(user.role)) {
+    console.log('Role mismatch - user role:', user.role, 'allowed:', allowedRoles);
     // Redirect to appropriate dashboard if role doesn't match
-    if (user.role === 'supplier') {
+    if (user.role === 'SUPPLIER') {
       return <Navigate to="/supplier/products" replace />;
-    } else if (user.role === 'admin') {
+    } else if (user.role === 'ADMIN') {
       return <Navigate to="/admin/products" replace />;
     } else {
       return <Navigate to="/dashboard" replace />;
     }
   }
 
+  console.log('Rendering children for:', location.pathname);
   return <>{children}</>;
 }
